@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shop Homepage - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+        <!-- iconos -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="{{ url_for('home') }}">BoardLab</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <!-- Home -->
+                        <li class="nav-item">
+                            <form action="{{ url_for('home') }}" method="post">
+                                <input type="hidden" name='homeUser' id="homeUser" value={{username}} />
+                                <input type="submit" value="Home" style="background-color:transparent; border:black">
+                            </form>
+                        </li>
+                        <!-- Profile -->
+                        <li class="nav-item" >
+                            <form action="{{ url_for('profile') }}" method="post" >
+                                <input type="hidden" name='profileUser' id="profileUser" value={{username}} />
+                                <input type="submit" value="Profile" style="background-color:transparent; border:black">
+                            </form>
+                        </li>
+                        <!-- notificaciones -->
+                        <li class="nav-item"><a class="nav-link" href="#!"><span class="material-icons">notifications_active</span></a></li>
+                    </ul>
+                      <!-- Search bar -->
+                      <div class="d-flex">
+                        <form action="/search" method="POST">
+                            <div id="ComboBox">
+                                <input autocomplete="off" type="text" placeholder="Search.." name="search" id="sBox"/>
+                                <select>
+                                    {% for search in searchslist %}
+                                        <option value="{{search}}">{{search}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <input type="hidden" name="load" value="1" id="load"/>
+                            <input type="hidden" name="searchuser" value={{username}} id="searchuser"/>
+                            <button type="submit" style="background-color: transparent; border: none;">
+                                <span class="material-icons">search</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <!-- info usuario -->
+                    <h1 class="display-4 fw-bolder">{{username}}</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">1000 SEGUIDORES</p>
+                    <p class="lead fw-normal text-white-50 mb-0">1000 SEGUIDOS</p>
+
+                    <!-- subir foto a tablero -->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="float: right;">
+                        <div class="text-center" ><a href="#"></a><span class="material-icons" style="font-size: 50px; margin-right: -400%;">add_box</span></a></div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    
+                    <!-- cubito foto-->
+                    {% for link in links%}
+                        <div class="col mb-5" >
+                            <div class="card h-100" id="cubo">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="{{link}}" alt="..." id="image"/>
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder" id="title"></h5>
+                                    </div>
+                                </div>
+                                <!-- Product actions-->
+                                <div>
+                                    <!-- download -->
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="float: left;">
+                                        <div class="text-center">
+                                            <a href="{{link}}" download id="downloadPht">
+                                                <button type="button" style="background-color:transparent; border:black" >
+                                                    <span class="material-icons">file_download</span>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <!-- fin cubito foto -->
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; BoardLab 2021</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- for cache -->
+        <script>
+            var ComboBox = function(container, customStyles) {
+            this.container = container;
+            this.container.className += ' cb--container';
+            this.input = container.getElementsByTagName('input')[0];
+            this.input.className += ' cb--input';
+            this.select = container.getElementsByTagName('select')[0];
+            this.select.className += ' cb--select';
+
+            this.value = this.input.value;
+
+            var optionZero = document.createElement('option');
+            optionZero.innerHTML = '';
+            this.select.insertBefore(optionZero, this.select.options[0]);
+
+            this.options = this.select.options;
+            for (var i = 0; i < this.options.length; i++) {
+                var element = this.options[i];
+                element.className += ' cb--option';
+            }
+
+            this.input.setAttribute('aria-label', 'Special inputfield with '+this.options.length+' prefilled options available, use the down/up arrow keys to chose one or write your own text.');
+            this.select.setAttribute('aria-hidden', 'true');
+
+            this.addEventListeners();
+            this.createVisualHint();
+
+            this.hideSelect();
+            if(!customStyles) this.setStyles();
+            };
+
+            ComboBox.prototype.addEventListeners = function() {
+            this.input.addEventListener('focus', this.showSelect.bind(this));
+            this.input.addEventListener('blur', this.hideSelect.bind(this));
+            this.input.addEventListener('keyup', this.handleInput.bind(this));
+
+            this.select.addEventListener('focus', this.showSelect.bind(this));
+            this.select.addEventListener('change', this.handleSelection.bind(this));
+            this.select.addEventListener('keydown', this.handleSelection.bind(this));
+            this.select.addEventListener('click', function(e) { this.handleSelection(e, 'click'); }.bind(this));
+            this.select.addEventListener('blur', function(e) {
+                this.hideSelect();
+
+                if(!this.preventTriggerSelection) {
+                this.triggerSelection();
+                } else { 
+                this.preventTriggerSelection = false;
+                }
+
+            }.bind(this));
+
+            return this;
+            };
+
+            ComboBox.prototype.handleInput = function(e) {
+            var code = this.getKey(e);
+            if(code === 'ArrowDown') {
+                this.handleWriting(e.target.value);
+                this.select.focus();
+            } else if(code === 'Escape') {
+                this.hideSelect();
+            } else if(code === 'Enter' && !this.preventDoubleEnter) {
+                this.setValue(this.select.value, 'hideSelect');
+                this.triggerSelection('force');
+            } else {
+                this.preventDoubleEnter = false;
+                this.handleWriting(this.input.value);
+            }
+
+            return this;
+            };
+
+            ComboBox.prototype.handleWriting = function(text) {
+            this.value = text;
+            var option = this.isTextInOptions(text, this.options);
+            if(option && text != '') {
+                this.setOptionZero(text);
+                this.select.value = option;
+
+                // if the text is absolutely equal to the option, trigger a selection
+                if(text.length === option.length) this.triggerSelection();
+            } else {
+                this.select.value = this.setOptionZero(text);
+            }
+
+            return this;
+            };
+
+            ComboBox.prototype.isTextInOptions = function(text, options) {
+            for(var i = 1, il = options.length; i < il; i++) {
+                if(text.toLowerCase() == options[i].value.substring(0, text.length).toLowerCase()) {
+                return options[i].innerHTML;
+                }
+            }
+            return false;
+            };
+
+            ComboBox.prototype.setOptionZero = function(text) {
+            var setText = (text != '') ? '--- ' + text : '---';
+            this.options[0].innerHTML = setText;
+            return setText;
+            };
+
+            ComboBox.prototype.handleSelection = function(e, click) {
+            var code = this.getKey(e);
+            if(code === 'Escape') {
+                this.preventTriggerSelection = true;
+                this.setValue(this.options[0].value, 'hideSelect');
+                // the selection might have changed by user, so to reset
+                // the preselection we have to check the input text again
+                this.handleWriting(this.value);
+            } else if(code === 'Enter') {
+                this.preventDoubleEnter = true;
+                this.setValue(e.target.value, 'hideSelect');
+            } else {
+                this.setValue(e.target.value, false);
+            }
+
+            if(click) this.triggerSelection('force');
+
+            return this;
+            };
+
+            ComboBox.prototype.setValue = function(value, hideSelect) {
+            if(!value || value == '') return this;  // do nothing if value is empty
+
+            if(value.substring(0, 3) != '---') {  // check if value is not the fallback option
+                this.input.value = value;
+            } else {  // if it is, don’t add the '--- '
+                this.input.value = value.substring(4, value.length);
+            }
+
+            if(hideSelect) {
+                this.input.focus();
+                this.hideSelect();
+            }
+
+            this.value = this.input.value;
+
+            return this;
+            };
+
+            ComboBox.prototype.getKey = function(e) {
+            if(!e) return false;
+
+            if(e.key === 'Enter' || e.code === 'Enter' || e.keyCode === 13) {
+                return 'Enter';
+            } else if(e.key === 'Escape' || e.code === 'Escape' || e.keyCode === 27) {
+                return 'Escape';
+            } else if(e.key === 'ArrowDown' || e.code === 'ArrowDown' || e.keyCode === 40) {
+                return 'ArrowDown';
+            }
+            };
+
+            ComboBox.prototype.hideSelect = function() {
+            this.select.setAttribute('aria-hidden', 'true');
+            this.select.style.left = '-10000px';
+            this.select.style.pointerEvents = 'none';
+            this.select.style.opacity = 0;
+
+            return this;
+            };
+
+            ComboBox.prototype.showSelect = function() {
+            this.select.setAttribute('aria-hidden', 'false');
+            this.select.style.left = '0';
+            this.select.style.pointerEvents = 'all';
+            this.select.style.opacity = 1;
+
+            return this;
+            };
+
+            ComboBox.prototype.createVisualHint = function() {
+            this.hint = document.createElement('span');
+            this.hint.setAttribute('aria-hidden', 'true');
+            this.hint.className = 'cb--hint';
+            this.hint.innerHTML = '▼';
+            this.container.insertBefore(this.hint, this.input);
+            };
+
+            ComboBox.prototype.setStyles = function() {
+            this.container.style.display = 'inline-block';
+            this.container.style.verticalAlign = 'top';
+            this.container.style.position = 'relative';
+            this.input.style.boxSizing = 'border-box';
+            this.input.style.height = '100%';
+            this.input.style.width = '100%';
+            this.select.style.border = '1px solid lightgrey';
+            this.select.style.borderTop = '0';
+            this.select.style.position = 'absolute';
+            this.select.style.top = '100%';
+            this.select.style.width = '100%';
+            this.hint.style.fontSize = '8px';
+            this.hint.style.pointerEvents = 'none';
+            this.hint.style.position = 'absolute';
+            this.hint.style.right = '5%';
+            this.hint.style.top = '50%';
+            this.hint.style.lineHeight = '0.1';
+
+            // this makes the down arrow key the only way to select the dropdown via keyboard
+            this.select.tabIndex = -1;
+            // this is inportant to get a list instead of a dropdown
+            this.select.size = 4;
+            };
+
+            // setup the onSelect handler passed by user
+            ComboBox.prototype.onSelect = function(cb) {
+            this.cb = cb;
+            this.handleInput(this.value);
+            return this;
+            };
+
+            ComboBox.prototype.triggerSelection = function(force) {
+            if(force || this.value !== this.previousValue) {
+                this.cb(this);
+                this.previousValue = this.value;
+            }
+
+            return this;
+            };
+
+
+
+            //_
+            var element = document.getElementById('ComboBox');
+            var cb = new ComboBox(element, false);
+        </script>
+    </body>
+</html>
