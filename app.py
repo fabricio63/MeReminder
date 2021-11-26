@@ -81,8 +81,8 @@ def signup():
 @app.route('/search', methods=['GET','POST'])
 def search():
   username = request.form['searchuser']
-  search = request.form["search"]
-  searchtag = '#'+ search
+  searchtag = request.form["search"]
+  
   posts = []
   for i in Posts.select().join(Users).where(Users.username == username):
     posts.append(i.post)
