@@ -7,7 +7,7 @@ Proyecto Ingenieria de software
 
 * Anesveth Maatens 20190339
 
-##OVERVIEW MeReminder
+## OVERVIEW MeReminder
  ```
 Es una aplicación web que permite a los usuarios realizar recordatorios o anotaciones 
 personales importantes similares a un “tweet” que permite agregar hashtags para poder filtrar 
