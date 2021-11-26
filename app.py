@@ -17,10 +17,14 @@ class Posts(Model):
     username = ForeignKeyField(Users)
     class Meta:
         database = db 
-
+class Captions(Model):
+    caption = CharField()
+    username = ForeignKeyField(Users)
+    class Meta:
+        database = db 
 db.connect()
 
-db.create_tables([Users,Posts])
+db.create_tables([Users,Posts,Captions])
 #--------------------------------------------
 
 app = Flask(__name__)
@@ -54,10 +58,12 @@ def home():
 def profile():
     username = request.form['profileUser']
     posts = []
+    caption = ""
     for i in Posts.select().join(Users).where(Users.username == username):
         posts.append(i.post)
-    
-    return render_template('profile.html', links=posts, username=username)
+    for i in Captions.select().join(Users).where(Users.username == username):
+        caption = i.caption
+    return render_template('profile.html', links=posts, username=username,caption = caption)
 #render signup
 @app.route('/signup', methods =['GET', 'POST'])
 def signup():
@@ -98,6 +104,20 @@ def adder():
     posts.append(i.post)
 
   return render_template('index.html', links = posts, username = username)
+
+@app.route('/addcaption', methods=['GET','POST'])
+def addcaption():
+    username = request.form['adderuser']
+    caption = request.form["post"]
+    dbuser = Users.select().where(Users.username == username).get()
+    NewUser = Captions.create(caption = caption,  username = dbuser)
+    NewUser.save()
+    posts = []
+    for i in Posts.select().join(Users).where(Users.username == username):
+        posts.append(i.post)
+    for i in Captions.select().join(Users).where(Users.username == username):
+        caption = i.caption
+    return render_template('profile.html', username = username,caption = caption,links = posts)
 
 @app.route('/delete', methods=['GET','POST'])
 def delete():

@@ -71,48 +71,73 @@
                 <div class="text-center text-white">
                     <!-- info usuario -->
                     <h1 class="display-4 fw-bolder">{{username}}</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">1000 SEGUIDORES</p>
-                    <p class="lead fw-normal text-white-50 mb-0">1000 SEGUIDOS</p>
+                    <p class="lead fw-normal text-white-50 mb-0">{{caption}}</p>
+                    
 
                     <!-- subir foto a tablero -->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="float: right;">
-                        <div class="text-center" ><a href="#"></a><span class="material-icons" style="font-size: 50px; margin-right: -400%;">add_box</span></a></div>
-                    </div>
+                    <form action="/addcaption" method="POST">
+                        <input type="text" placeholder="add bio" name="post" id="sBox"/>
+                        <input type="hidden" name="load" value="1" id="load"/>
+                        <input type="hidden" name="adderuser" value={{username}} id="adderuser"/>
+                        <input type="submit" value="add bio" style="background-color:transparent; border:white 1px; font-size: 25px;" class="lead fw-normal text-white-50 mb-0" >
+                        
+                    </form>
+                    
 
                 </div>
             </div>
         </header>
 
-        <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    
                     <!-- cubito foto-->
                     {% for link in links%}
                         <div class="col mb-5" >
                             <div class="card h-100" id="cubo">
                                 <!-- Product image-->
-                                <img class="card-img-top" src="{{link}}" alt="..." id="image"/>
+                                <!-- <img class="card-img-top" src="{{link}}" alt="..." id="image"/> -->
                                 <!-- Product details-->
                                 <div class="card-body p-4">
                                     <div class="text-center">
                                         <!-- Product name-->
-                                        <h5 class="fw-bolder" id="title"></h5>
+                                        <h5 class="fw-bolder" id="title">{{link}}</h5>
                                     </div>
                                 </div>
                                 <!-- Product actions-->
                                 <div>
                                     <!-- download -->
-                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="float: left;">
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="float: right;">
                                         <div class="text-center">
-                                            <a href="{{link}}" download id="downloadPht">
-                                                <button type="button" style="background-color:transparent; border:black" >
-                                                    <span class="material-icons">file_download</span>
-                                                </button>
+                                            <a href="" id="addPht">
+                                                <form action="{{ url_for('delete') }}" method="post">
+                                                    <input type="hidden" name='link' id="link" value="{{link}}" />
+                                                    <input type="hidden" name='adderUser' id="adderUser" value={{username}} />
+                                                    <div>
+                                                        <input type="submit" value="x" style="background-color:transparent; border:black 1px; font-size: 25px;" >
+                                                        
+                                                    </div>
+                                                </form>
                                             </a>
                                         </div>
                                     </div>
+
+                                    <!-- add to board
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="float: right;">
+                                        <div class="text-center">
+                                            <a href="" id="addPht">
+                                                <form action="{{ url_for('adder') }}" method="post">
+                                                    <input type="hidden" name='link' id="link" value="{{link}}" />
+                                                    <input type="hidden" name='adderUser' id="adderUser" value={{username}} />
+                                                    <div>
+                                                        <input type="submit" value="+" style="background-color:transparent; border:black 1px; font-size: 25px;" > -->
+                                                        <!-- <span class="material-icons">add_box</span> -->
+                                                    <!-- </div>
+                                                </form>
+                                            </a>
+                                        </div>
+                                    </div> -->
+
                                 </div>
                             </div>
                         </div>
@@ -120,6 +145,7 @@
                     <!-- fin cubito foto -->
                 </div>
             </div>
+
         </section>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
