@@ -12,7 +12,7 @@ Proyecto Ingenieria de software
 ## Ejecución
 
 Para que este proyecto funcione correr la app principal estando dentro del folder que se encuentre el archivo app.py:
-
+```
 Python: 
 - python3 app.py 
 ```
